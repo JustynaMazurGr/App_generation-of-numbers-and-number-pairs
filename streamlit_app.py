@@ -84,7 +84,6 @@ if st.session_state.generated_numbers is not None:
 # Przycisk do generowania i zapisu pliku z parami liczb, które wcześniej były wygenerowane
 if st.button('Wygeneruj pary liczb z wygenerowanych wcześniej liczb'):
     if st.session_state.generated_numbers is not None:
-        #generated_pairs_from_generated = st.session_state.generated_numbers.chosen_pairs
         generated_pairs_from_generated = st.session_state.generated_numbers.choosing_pairs(max_sum)
         st.session_state.generated_pairs_from_generated = pd.DataFrame(generated_pairs_from_generated, columns=['Liczba 1', 'Liczba 2'])
         st.session_state.generated_pairs_from_generated.to_csv('file2.csv', index=False)
@@ -118,9 +117,10 @@ if uploaded_file is not None:
 st.write("Uwaga: jeśli pobrany plik będzie zawierał również dane inne niż liczbowe, pominie te dane.")
 
 if st.button('Wygeneruj pary liczb z Twojego pliku z listą liczb.'):
-    generated_pairs_from_file = st.session_state.numbers_list.choosing_pairs(max_sum)
-    st.session_state.generated_pairs_from_file = pd.DataFrame(generated_pairs_from_file, columns=['Liczba 1', 'Liczba 2'])
-    st.session_state.generated_pairs_from_file.to_csv('file2.csv', index=False)
+    if uploaded_file is not None:
+        generated_pairs_from_file = st.session_state.numbers_list.choosing_pairs(max_sum)
+        st.session_state.generated_pairs_from_file = pd.DataFrame(generated_pairs_from_file, columns=['Liczba 1', 'Liczba 2'])
+        st.session_state.generated_pairs_from_file.to_csv('file2.csv', index=False)
 
 # Wyświetlanie wygenerowanych par liczb z listy liczb z pliku użytkownika
 if st.session_state.generated_pairs_from_file is not None:
